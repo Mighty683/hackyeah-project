@@ -4,31 +4,35 @@
 
 <script>
 import Phaser from 'phaser';
-
+import level from '../data/level'
 function preload () {
-    this.load.image('platform', 'assets/sprites/platform.png');
-    this.load.image('thrash', 'assets/sprites/items.jpg');
+    this.load.image('textures', 'textures.png');
+}
+function createTileMap (game) {
+  const map = game.make.tilemap({
+    data: level,
+    tileWidth: 40,
+    tileHeight: 40,
+  })
+  const tiles = map.addTilesetImage('textures')
+  map.createStaticLayer(0, tiles, 0, 0);
 }
 
-function create ()
-{
-    this.matter.world.setBounds();
+function initMatter (game) {
+  game.matter.add.image(10, 200, 'balls', 5);
+}
 
-    //  Increase the solver steps from the default to aid with the stack
-    this.matter.world.engine.positionIterations = 30;
-    this.matter.world.engine.velocityIterations = 30;
-    this.platform = this.matter.add.image(0, 600, 'platform', null, { isStatic: true }).setScale(2, 0.5);
-    // this.thrash = this.matter.add.image('thrash', { mass: 0.5 });
+function create () {
+    this.matter.world.setBounds(0, 0, 800, 580);
+    createTileMap(this);
+    initMatter(this);
 
-    this.matter.add.mouseSpring();
 }
 
 export default {
   data () {
     return {
       game: null,
-      thrash: null,
-      platform: null,
     }
   },
 
@@ -37,7 +41,7 @@ export default {
         type: Phaser.AUTO,
         width: 800,
         height: 600,
-        backgroundColor: '#1b1464',
+        backgroundColor: '#03b6fc',
         parent: 'phaser-container',
         physics: {
           default: 'matter',
