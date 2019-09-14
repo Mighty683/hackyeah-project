@@ -4,23 +4,52 @@
 
 <script>
 import Phaser from 'phaser';
-import level from '../data/level'
+import level from '../data/level';
+import Trash from '../game/trash';
+import Butt from '../game/butt';
+
 function preload () {
     this.load.image('textures', 'textures.png');
-    // TODO: add cannon sprite
+    this.load.image('trash', 'trash.png');
+}
+
+function handleButtCollision (game, butt, target) {
+  if (target.label === 'trash') {
+    window.alert('WIN!');
+  }
 }
 function createTileMap (game) {
   const map = game.make.tilemap({
     data: level,
     tileWidth: 40,
     tileHeight: 40,
-  })
-  const tiles = map.addTilesetImage('textures')
+  });
+  const tiles = map.addTilesetImage('textures');
   map.createStaticLayer(0, tiles, 0, 0);
 }
 
 function initMatter (game) {
-  game.matter.add.image(10, 200, 'balls', 5);
+  // Draggable items 
+  let canDrag = game.matter.world.nextGroup();
+
+  Trash(game)
+  Butt(game, canDrag)
+
+  game.matter.add.mouseSpring({ length: 1, stiffness: 0.6, collisionFilter: { group: canDrag } });
+
+  game.matter.world.on('collisionstart', function (event, bodyA, bodyB) {
+    let butt, target
+    if (bodyA.label === 'butt') {
+      butt = bodyA
+      target = bodyB
+    } else if (bodyB.label === 'butt') {
+      butt = bodyB
+      target = bodyA
+    }
+    if (butt) {
+      handleButtCollision(game, butt, target)
+    }
+  });
 }
 
 function create () {
