@@ -7,11 +7,14 @@ import Phaser from "phaser";
 import level from "../data/level";
 import Trash from "../game/trash";
 import Butt from "../game/butt";
+import Wall from "../game/wall";
 import EventBus from "../event-bus/event-bus";
+import wallsLabirynth from "../data/walls"
 
 function preload() {
   this.load.image("textures", "textures.png");
   this.load.image("trash", "trash.png");
+  this.load.image("wall", "wall.png");
 }
 
 function handleButtCollision(game, butt, target) {
@@ -33,9 +36,11 @@ function createTileMap(game) {
 function initMatter(game) {
   // Draggable items
   let canDrag = game.matter.world.nextGroup();
-
   Trash(game);
   Butt(game, canDrag);
+  wallsLabirynth.forEach(element => {
+      Wall(game, element);
+  });
 
   game.matter.add.mouseSpring({
     length: 1,
