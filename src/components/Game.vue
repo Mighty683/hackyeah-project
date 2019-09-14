@@ -4,16 +4,23 @@
 
 <script>
 import Phaser from "phaser";
+
+import wallsLabirynth from "../data/walls";
 import level from "../data/level";
+
 import Trash from "../game/trash";
 import Butt from "../game/butt";
 import Fan from "../game/fan";
+import Wall from "../game/wall";
+
 import EventBus from "../event-bus/event-bus";
+
 let Vector = Phaser.Math.Vector2;
 
 function preload() {
   this.load.image("textures", "textures.png");
   this.load.image("trash", "trash.png");
+  this.load.image("wall", "wall.png");
 }
 
 
@@ -47,6 +54,9 @@ function initMatter(game) {
   game.fan3 = Fan(game, 150, 50);
   game.fan4 = Fan(game, 200, 50);
   game.butt = Butt(game, dragGroup);
+  wallsLabirynth.forEach(element => {
+      Wall(game, element);
+  });
 
   game.matter.add.mouseSpring({
     length: 1,
