@@ -7,18 +7,25 @@ import Phaser from "phaser";
 import level from "../data/level";
 import Trash from "../game/trash";
 import Butt from "../game/butt";
+import Fan from "../game/fan";
 import EventBus from "../event-bus/event-bus";
+let Vector = Phaser.Math.Vector2;
 
 function preload() {
   this.load.image("textures", "textures.png");
   this.load.image("trash", "trash.png");
 }
 
+
 function handleButtCollision(game, butt, target) {
   if (target.label === "trash") {
     EventBus.$emit("win-game");
   }
+  if (target.label === 'fan-sensor') {
+    butt.gameObject._fanForce = new Vector(target.gameObject.body.vertices[0]).subtract(butt.gameObject.getCenter())
+  }
 }
+
 
 function createTileMap(game) {
   const map = game.make.tilemap({
@@ -32,15 +39,19 @@ function createTileMap(game) {
 
 function initMatter(game) {
   // Draggable items
-  let canDrag = game.matter.world.nextGroup();
+  let dragGroup = game.matter.world.nextGroup();
 
   Trash(game);
-  Butt(game, canDrag);
+  game.fan1 = Fan(game, 50, 50);
+  game.fan2 = Fan(game, 100, 50);
+  game.fan3 = Fan(game, 150, 50);
+  game.fan4 = Fan(game, 200, 50);
+  game.butt = Butt(game, dragGroup);
 
   game.matter.add.mouseSpring({
     length: 1,
-    stiffness: 0.6,
-    collisionFilter: { group: canDrag }
+    stiffness: 0.3,
+    collisionFilter: { group: dragGroup }
   });
 
   game.matter.world.on("collisionstart", function(event, bodyA, bodyB) {
@@ -53,7 +64,7 @@ function initMatter(game) {
       target = bodyA;
     }
     if (butt) {
-      handleButtCollision(game, butt, target);
+      handleButtCollision(game, butt, target, event);
     }
   });
 }
@@ -79,6 +90,10 @@ function update(time, delta) {
     x,
     y
   );
+  if (this.butt._fanForce) {
+    this.butt.applyForce(this.butt._fanForce.negate().scale(1/30000))
+    this.butt._fanForce = 0;
+  }
 }
 
 export default {
