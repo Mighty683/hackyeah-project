@@ -65,6 +65,7 @@
         const viewportWidth = document.querySelector('body').offsetWidth;
 
         this.textWidth = this.$refs.intro.offsetWidth + viewportWidth;
+        this.scrollStep = Math.round(viewportWidth * 0.3);
       },
 
       scroll () {

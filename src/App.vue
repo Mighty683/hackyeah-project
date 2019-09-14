@@ -44,6 +44,11 @@
 </script>
 
 <style lang="scss">
+  body {
+    padding: 0;
+    margin: 0;
+  }
+
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -59,9 +64,9 @@
   }
   .menu {
     position: fixed;
-    bottom: 10%;
+    top: 80vh;
+    width: 100vw;
     text-align: center;
-    width: 100%;
 
     .button {
       padding: 20px;
@@ -69,6 +74,7 @@
       border: 1px solid grey;
       box-shadow: -2px -2px lightgrey inset;
       cursor: pointer;
+      background: white;
     }
   }
 </style>
