@@ -1,0 +1,45 @@
+@keyframes twiggle {
+  0% {
+    transform: rotate(-15deg);
+  }
+  100% {
+    transform: rotate(15deg);
+  }
+}
+
+@keyframes wave-h {
+  0% {
+    transform: translate(-10px, 10px);
+  }
+  50% {
+    transform: translate(0px, -10px);
+  }
+  100% {
+    transform: translate(10px, 0);
+  }
+}
+
+@keyframes wave {
+  0% {
+    transform: translate3d(-10vw, 0vh, 0);
+  }
+  50% {
+    transform: translate3d(0, 0vh, 30px);
+  }
+  100% {
+    transform: translate3d(10vw, 80vh, 0);
+  }
+}
+
+
+.twiggle {
+  animation: twiggle .5s cubic-bezier(0.6, -0.28, 0.74, 0.05) infinite alternate;
+}
+
+.wave {
+  animation: wave-h 1.7s ease-in-out infinite alternate;
+}
+
+.wave-big {
+  animation: wave 3s ease-in-out infinite alternate;
+}
