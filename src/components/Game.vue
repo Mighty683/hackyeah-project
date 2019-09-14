@@ -7,6 +7,7 @@ import Phaser from 'phaser';
 import level from '../data/level';
 import Trash from '../game/trash';
 import Butt from '../game/butt';
+import EventBus from '../event-bus/event-bus';
 
 function preload () {
     this.load.image('textures', 'textures.png');
@@ -15,10 +16,11 @@ function preload () {
 
 function handleButtCollision (game, butt, target) {
   if (target.label === 'trash') {
-    window.alert('WIN!');
+    EventBus.$emit('win-game')
   }
 }
-function createTileMap (game) {
+
+function createTileMap(game) {
   const map = game.make.tilemap({
     data: level,
     tileWidth: 40,
@@ -52,11 +54,10 @@ function initMatter (game) {
   });
 }
 
-function create () {
-    this.matter.world.setBounds(0, 0, 800, 580);
-    createTileMap(this);
-    initMatter(this);
-
+function create() {
+  this.matter.world.setBounds(0, 0, 800, 580);
+  createTileMap(this);
+  initMatter(this);
     this.cannon = this.matter.add.sprite(200, 300, 'cannon', {
         originX: 0,
     })
@@ -71,34 +72,34 @@ function update (time, delta) {
 }
 
 export default {
-  data () {
+  data() {
     return {
-      game: null,
-    }
+      game: null
+    };
   },
 
-  mounted () {
-    this.game =  new Phaser.Game({
-        type: Phaser.AUTO,
-        width: 800,
-        height: 600,
-        backgroundColor: '#03b6fc',
-        parent: 'phaser-container',
-        physics: {
-          default: 'matter',
-          matter: {
-            debug: true,
-            gravity: {
-              y: 0.3
-            },
+  mounted() {
+    this.game = new Phaser.Game({
+      type: Phaser.AUTO,
+      width: 800,
+      height: 600,
+      backgroundColor: "#03b6fc",
+      parent: "phaser-container",
+      physics: {
+        default: "matter",
+        matter: {
+          debug: true,
+          gravity: {
+            y: 0.3
           }
-        },
-        scene: {
-          preload: preload,
-          create: create,
-          update: update,
         }
-      })
-  },
-}
+      },
+      scene: {
+        preload: preload,
+        create: create,
+        update: update,
+      }
+    });
+  }
+};
 </script>
