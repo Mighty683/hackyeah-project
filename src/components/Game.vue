@@ -7,6 +7,7 @@ import Phaser from 'phaser';
 import level from '../data/level'
 function preload () {
     this.load.image('textures', 'textures.png');
+    // TODO: add cannon sprite
 }
 function createTileMap (game) {
   const map = game.make.tilemap({
@@ -27,6 +28,17 @@ function create () {
     createTileMap(this);
     initMatter(this);
 
+    this.cannon = this.matter.add.sprite(200, 300, 'cannon', {
+        originX: 0,
+    })
+      .setDisplaySize(60, 10)
+      .setOrigin(0, .5)
+      .setStatic(true)
+}
+
+function update (time, delta) {
+    let {x,y} = this.input.activePointer;
+    this.cannon.rotation = Phaser.Math.Angle.Between(this.cannon.x, this.cannon.y, x, y);
 }
 
 export default {
@@ -55,6 +67,7 @@ export default {
         scene: {
           preload: preload,
           create: create,
+          update: update,
         }
       })
   },
