@@ -76,6 +76,12 @@
           this.scrollPosition += this.scrollStep;
         }
       },
+
+      startMusic () {
+        const audio = new Audio('MoveYourButt.mp3');
+
+        audio.play();
+      },
     },
 
     mounted () {
@@ -92,6 +98,7 @@
       textWidth (newValue) {
         if (newValue > 0) {
           this.scroll();
+          this.startMusic();
         }
       },
     },
