@@ -41,6 +41,7 @@
         textWidth: 0,
         scrollPosition: 0,
         scrollStep: 100,
+        timeout: null,
       };
     },
 
@@ -56,7 +57,7 @@
       },
 
       renderText () {
-        setTimeout(() => {
+        this.timeout = setTimeout(() => {
           this.addLetter();
         }, 100);
       },
@@ -84,6 +85,7 @@
 
     destroyed () {
       this.$el.removeEventListener(transitionEvent, this.scroll);
+      clearTimeout(this.timeout);
     },
 
     watch: {
