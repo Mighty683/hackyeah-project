@@ -17,7 +17,7 @@ function create ()
     //  Increase the solver steps from the default to aid with the stack
     this.matter.world.engine.positionIterations = 30;
     this.matter.world.engine.velocityIterations = 30;
-    this.platform = this.matter.add.image(350, 450, 'platform', null, { isStatic: true }).setScale(2, 0.5).setAngle(10);
+    this.platform = this.matter.add.image(0, 600, 'platform', null, { isStatic: true }).setScale(2, 0.5);
     // this.thrash = this.matter.add.image('thrash', { mass: 0.5 });
 
     this.matter.add.mouseSpring();
