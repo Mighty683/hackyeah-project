@@ -23,6 +23,7 @@ function preload() {
   this.load.image("trash", "trash.png");
   this.load.image("wall", "wall.png");
   this.load.image("vent", "vent.png");
+  this.load.image("butt", "butt.png");
 }
 
 
@@ -86,14 +87,10 @@ function initMatter(game) {
   });
 }
 
-function registerInputs (game) {
-}
-
 function create() {
   this.matter.world.setBounds(0, 0, 800, 580);
   createTileMap(this);
   initMatter(this);
-  registerInputs(this);
   Cannon.init(this);
 }
 
