@@ -4,22 +4,36 @@
 
 <script>
 import Phaser from "phaser";
+
+import wallsLabirynth from "../data/walls";
 import level from "../data/level";
+
 import Trash from "../game/trash";
 import Butt from "../game/butt";
 import Cannon from "../game/cannon";
+import Fan from "../game/fan";
+import Wall from "../game/wall";
+
 import EventBus from "../event-bus/event-bus";
+
+let Vector = Phaser.Math.Vector2;
 
 function preload() {
   this.load.image("textures", "textures.png");
   this.load.image("trash", "trash.png");
+  this.load.image("wall", "wall.png");
 }
+
 
 function handleButtCollision(game, butt, target) {
   if (target.label === "trash") {
     EventBus.$emit("win-game");
   }
+  if (target.label === 'fan-sensor') {
+    butt.gameObject._fanForce = new Vector(target.gameObject.body.vertices[0]).subtract(butt.gameObject.getCenter())
+  }
 }
+
 
 function createTileMap(game) {
   const map = game.make.tilemap({
@@ -36,13 +50,20 @@ function initMatter(game) {
   let mouseCollision = game.matter.world.nextGroup();
 
   Trash(game);
-  Butt(game, {
-    collisionGroup: mouseCollision,
+  game.fan1 = Fan(game, 50, 50);
+  game.fan2 = Fan(game, 100, 50);
+  game.fan3 = Fan(game, 150, 50);
+  game.fan4 = Fan(game, 200, 50);
+  game.butt = Butt(game, {
+    collisionGroup: mouseCollision
+  });
+  wallsLabirynth.forEach(element => {
+      Wall(game, element);
   });
 
   game.matter.add.mouseSpring({
     length: 1,
-    stiffness: 0.6,
+    stiffness: 0.3,
     collisionFilter: { group: mouseCollision }
   });
 
@@ -56,7 +77,7 @@ function initMatter(game) {
       target = bodyA;
     }
     if (butt) {
-      handleButtCollision(game, butt, target);
+      handleButtCollision(game, butt, target, event);
     }
   });
 }
@@ -70,6 +91,10 @@ function create() {
 
 function update(time, delta) {
   Cannon.update();
+  if (this.butt._fanForce) {
+    this.butt.applyForce(this.butt._fanForce.negate().scale(1/30000))
+    this.butt._fanForce = 0;
+  }
 }
 
 export default {
