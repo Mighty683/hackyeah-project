@@ -8,8 +8,8 @@ import level from '../data/level'
 function preload () {
     this.load.image('textures', 'textures.png');
 }
-function createTileMap () {
-  const map = this.make.tilemap({
+function createTileMap (game) {
+  const map = game.make.tilemap({
     data: level,
     tileWidth: 40,
     tileHeight: 40,
@@ -18,14 +18,14 @@ function createTileMap () {
   map.createStaticLayer(0, tiles, 0, 0);
 }
 
-function initMatter () {
-
+function initMatter (game) {
+  game.matter.add.image(10, 200, 'balls', 5);
 }
 
 function create () {
     this.matter.world.setBounds(0, 0, 800, 580);
-    createTileMap();
-    initMatter();
+    createTileMap(this);
+    initMatter(this);
 
 }
 
