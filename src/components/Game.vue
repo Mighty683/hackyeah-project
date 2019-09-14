@@ -4,26 +4,28 @@
 
 <script>
 import Phaser from 'phaser';
-
+import level from '../data/level'
 function preload () {
-    this.load.image('grass', 'grass.png');
+    this.load.image('textures', 'textures.png');
 }
 
 function create ()
 {
     this.matter.world.setBounds();
-    this.matter.world.engine.positionIterations = 30;
-    this.matter.world.engine.velocityIterations = 30;
-    this.platform = this.matter.add.image(0, 600, 'grass', null, { isStatic: true }).setScale(2, 0.5);
-    this.matter.add.mouseSpring();
+
+    const map = this.make.tilemap({
+      data: level,
+      tileWidth: 40,
+      tileHeight: 40,
+    })
+    const tiles = map.addTilesetImage('textures')
+    map.createStaticLayer(0, tiles, 0, 0);
 }
 
 export default {
   data () {
     return {
       game: null,
-      thrash: null,
-      platform: null,
     }
   },
 
@@ -32,7 +34,7 @@ export default {
         type: Phaser.AUTO,
         width: 800,
         height: 600,
-        backgroundColor: '#1b1464',
+        backgroundColor: '#03b6fc',
         parent: 'phaser-container',
         physics: {
           default: 'matter',
