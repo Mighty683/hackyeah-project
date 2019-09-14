@@ -8,6 +8,7 @@ import level from "../data/level";
 import { EventBusEventsEnum } from "../event-bus/event-bus";
 function preload() {
   this.load.image("textures", "textures.png");
+    // TODO: add cannon sprite
 }
 function createTileMap(game) {
   const map = game.make.tilemap({
@@ -30,6 +31,17 @@ function create() {
   this.input.on("pointerdown", function(pointer) {
     eventBus.dispatchEvent(EventBusEventsEnum.ENTITY_CLICKED, { elo: "elo" });
   });
+    this.cannon = this.matter.add.sprite(200, 300, 'cannon', {
+        originX: 0,
+    })
+      .setDisplaySize(60, 10)
+      .setOrigin(0, .5)
+      .setStatic(true)
+}
+
+function update (time, delta) {
+    let {x,y} = this.input.activePointer;
+    this.cannon.rotation = Phaser.Math.Angle.Between(this.cannon.x, this.cannon.y, x, y);
 }
 
 export default {
@@ -57,7 +69,8 @@ export default {
       },
       scene: {
         preload: preload,
-        create: create
+        create: create,
+        update: update,
       }
     });
   }
