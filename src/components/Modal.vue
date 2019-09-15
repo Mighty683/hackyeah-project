@@ -8,7 +8,7 @@
               <img src="plogo.png" alt="logo" />
             </div>
             <div class="container text-header">
-              <p>Do you know... ?</p>
+              <p>Did you know... ?</p>
             </div>
             <button type="button" class="btn-close" @click="close">x</button>
           </slot>
@@ -28,25 +28,6 @@
   </transition>
 </template>
 
-<style scoped>
-  .modal-header {
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-  .text-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  button.btn-close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-  }
-</style>
-
 <script>
 import tips from '../data/tips';
 
@@ -59,9 +40,9 @@ export default {
     },
     getTip () {
         const {length} = tips
-        const index = Math.floor(Math.random() * length) 
-        
-        return tips[index] 
+        const index = Math.floor(Math.random() * length)
+
+        return tips[index]
       }
   }
 };
@@ -118,7 +99,7 @@ export default {
 .modal-body {
   position: relative;
   padding: 20px 10px;
-  
+
 }
 
 .btn-close {
@@ -146,4 +127,22 @@ export default {
 .modal-fade-leave-active {
   transition: opacity 0.5s ease;
 }
+
+.modal-header {
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.text-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+button.btn-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
 </style>

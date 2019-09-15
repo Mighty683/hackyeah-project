@@ -95,12 +95,10 @@ function createFontSprite (game) {
   score.lose.y = 40;
   score.lose.tilePositionX = 0;
   score.lose.tilePositionY = 80;
-  score.lose.blendMode = Phaser.BlendModes.MULTIPLY;
   score.win.x = 760;
   score.win.y = 40;
   score.win.tilePositionX = 0;
   score.win.tilePositionY = 80;
-  score.win.blendMode = Phaser.BlendModes.SCREEN;
 }
 
 function updateScore (side = 'lose') {
@@ -200,12 +198,19 @@ export default {
 
     EventBus.$on('win-game', () => {
       updateScore('win');
+      if (currentScore.win >= 5) {
+        EventBus.$emit('show-modal', 'Congratulations! You are a clean person! The world would be proud.')
+      }
     });
 
     EventBus.$on('lost-point', function () {
       updateScore('lose')
-      EventBus.$emit('show-modal')
-      // Check
+
+      if (currentScore.lose >= 5) {
+        EventBus.$emit('show-modal', 'You lose. You are lying under butts!')
+      } else {
+        EventBus.$emit('show-modal')
+      }
       that.game.paused = true
       EventBus.$once('modal-closed', () => that.game.paused = false)
     })

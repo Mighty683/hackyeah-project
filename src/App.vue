@@ -13,7 +13,9 @@
     </div>
     <template v-else>
       <game/>
-      <modal @close="closeModal" v-if="isModalVisible"/>
+      <modal @close="closeModal" v-if="isModalVisible">
+        <template slot="body" v-if="modalText">{{ modalText }}</template>
+      </modal>
     </template>
   </div>
 </template>
@@ -33,6 +35,7 @@
         isLoadingIntro: true,
         isModalVisible: false,
         isShowingLogo: false,
+        modalText: '',
       };
     },
 
@@ -51,8 +54,9 @@
         this.isModalVisible = false
       },
 
-      showModal () {
+      showModal (text) {
         this.isModalVisible = true
+        this.modalText = text
       },
 
       handleIntroReady () {
