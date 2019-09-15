@@ -7,10 +7,10 @@
             <div class="plogo">
               <img src="plogo.png" alt="logo" />
             </div>
-            <div class="container">
-              <p>Czy wiesz że ?</p>
-              <button type="button" class="btn-close" @click="close">x</button>
+            <div class="container text-header">
+              <p>Do you know... ?</p>
             </div>
+            <button type="button" class="btn-close" @click="close">x</button>
           </slot>
         </header>
         <section class="modal-body">
@@ -27,6 +27,25 @@
     </div>
   </transition>
 </template>
+
+<style scoped>
+  .modal-header {
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .text-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  button.btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+</style>
 
 <script>
 import tips from '../data/tips';

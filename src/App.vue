@@ -22,7 +22,6 @@
   import Game from './components/Game.vue';
   import Intro from './components/Intro';
   import Modal from './components/Modal.vue';
-  // import tips from './data/tips';
   import EventBus from './event-bus/event-bus'
 
   export default {
