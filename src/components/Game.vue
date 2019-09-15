@@ -22,7 +22,7 @@ function preload() {
   this.load.image("textures", "textures.png");
   this.load.image("trash", "trash.png");
   this.load.image("wall", "wall.png");
-  this.load.image("butt", "butt.png");
+  this.load.image("butt", "cigarrete_final.png");
 }
 
 
