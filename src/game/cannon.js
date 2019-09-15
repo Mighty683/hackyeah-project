@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import Butt from "./butt";
 
-let cannonForce = 10;
+let cannonForce = 15;
 
 let Cannon;
 let Scene;
@@ -17,15 +17,7 @@ function fireButt () {
 
     Cannon.anims.play('shot', true);  
     butt = Butt(Scene, { x, y: y - 5 })
-    butt.setVelocity(vx,vy), 50
-    setTimeout(() => butt.setAngularVelocity(.3))
-
-    setTimeout(() => {
-      if (!butt._dead) {
-        butt.destroy();
-        butt = null;
-      }
-    }, 10000)
+    butt.setVelocity(vx,vy)
   }
 }
 
@@ -36,15 +28,17 @@ function init(scene) {
   Scene = scene;
 
   Cannon = Scene.matter.add
-    .sprite(0, 0, "cannon")
-    .setCollisionCategory(scene.matter.world.nextGroup())
-    .setPosition(50, 500)
-    .setStatic(true)
-    Scene.anims.create({
-      key: 'shot',
-      frames: Scene.anims.generateFrameNumbers('cannon', { start: 0, end: 13 }),
-      frameRate: 10,
-      repeat: -1
+  .sprite(0, 0, "cannon")
+  .setCollisionCategory(scene.matter.world.nextGroup())
+  .setPosition(50, 500)
+  .setStatic(true)
+  .toggleFlipX()
+
+  Scene.anims.create({
+    key: 'shot',
+    frames: Scene.anims.generateFrameNumbers('cannon', { start: 0, end: 13 }),
+    frameRate: 10,
+    repeat: -1
   });
   
   Scene.input.keyboard.on('keyup_SPACE', fireButt);
