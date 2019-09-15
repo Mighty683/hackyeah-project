@@ -22,6 +22,8 @@ function preload() {
   this.load.image("textures", "textures.png");
   this.load.image("trash", "trash.png");
   this.load.image("wall", "wall.png");
+  this.load.image("vent", "vent.png");
+  this.load.image("butt", "butt.png");
 }
 
 
@@ -30,7 +32,10 @@ function handleButtCollision(game, butt, target) {
     EventBus.$emit("win-game");
   }
   if (target.label === 'fan-sensor') {
-    butt.gameObject._fanForce = new Vector(target.gameObject.body.vertices[0]).subtract(butt.gameObject.getCenter())
+    butt.gameObject._fanForce = new Vector(
+      target.gameObject.body.vertices[0])
+      .subtract(butt.gameObject.getCenter()
+    ).negate().scale(1/10000)
   }
 }
 
@@ -50,10 +55,10 @@ function initMatter(game) {
   let mouseCollision = game.matter.world.nextGroup();
 
   Trash(game);
-  game.fan1 = Fan(game, 50, 50);
-  game.fan2 = Fan(game, 100, 50);
-  game.fan3 = Fan(game, 150, 50);
-  game.fan4 = Fan(game, 200, 50);
+  game.fan1 = Fan(game, 50, 50, mouseCollision);
+  game.fan2 = Fan(game, 100, 50, mouseCollision);
+  game.fan3 = Fan(game, 150, 50, mouseCollision);
+  game.fan4 = Fan(game, 200, 50, mouseCollision);
   game.butt = Butt(game, {
     collisionGroup: mouseCollision
   });
@@ -63,7 +68,7 @@ function initMatter(game) {
 
   game.matter.add.mouseSpring({
     length: 1,
-    stiffness: 0.3,
+    stiffness: 1,
     collisionFilter: { group: mouseCollision }
   });
 
@@ -92,7 +97,7 @@ function create() {
 function update(time, delta) {
   Cannon.update();
   if (this.butt._fanForce) {
-    this.butt.applyForce(this.butt._fanForce.negate().scale(1/30000))
+    this.butt.applyForce(this.butt._fanForce)
     this.butt._fanForce = 0;
   }
 }

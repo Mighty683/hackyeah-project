@@ -1,11 +1,14 @@
 <template>
   <transition name="modal-fade">
-    <div class="modal-backdrop">
+    <div class="modal-backdrop" @click="close">
       <div class="modal">
         <header class="modal-header">
           <slot name="header">
-            This is the default tile!
-            <button type="button" class="btn-close" @click="close">x</button>
+            <div class="container">
+              <p>Czy wiesz że ?</p>
+                <img src="plogo.png" alt="logo">
+              <button type="button" class="btn-close" @click="close">x</button>
+            </div>
           </slot>
         </header>
         <section class="modal-body">
@@ -13,8 +16,9 @@
         </section>
         <footer class="modal-footer">
           <slot name="footer">
-            I'm the default footer!
-            <button type="button" class="btn-green" @click="close">Close me!</button>
+              <div class="container--center">
+                  <button type="button" class="btn-green" @click="close">Zamknij</button>
+              </div>
           </slot>
         </footer>
       </div>
@@ -53,6 +57,7 @@ export default {
   overflow-x: auto;
   display: flex;
   flex-direction: column;
+  border-radius: 1.2rem;
 }
 
 .modal-header,
@@ -65,6 +70,14 @@ export default {
   border-bottom: 1px solid #eeeeee;
   color: #4aae9b;
   justify-content: space-between;
+}
+
+.container {
+  display: flex;
+}
+
+.container button {
+  justify-content: center
 }
 
 .modal-footer {
