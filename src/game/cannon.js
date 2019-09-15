@@ -10,7 +10,7 @@ let Scene;
 let butt;
 
 function fireButt () {
-  if (!butt) {
+  if (!butt || butt._dead || butt._hit) {
     const {x, y} = Cannon.getCenter();
 
     const vx = cannonForce * Math.cos(Cannon.rotation)
@@ -25,7 +25,7 @@ function fireButt () {
         butt.destroy();
         butt = null;
       }
-    }, 4000)
+    }, 10000)
   }
 }
 

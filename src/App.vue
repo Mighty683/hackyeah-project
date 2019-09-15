@@ -12,9 +12,8 @@
       </div>
     </div>
     <template v-else>
-      <button type="button" class="btn-close" @click="toggleModal">ELO 320</button>
       <game/>
-      <modal @close="toggleModal" v-if="isModalVisible"/>
+      <modal @close="closeModal" v-if="isModalVisible"/>
     </template>
   </div>
 </template>
@@ -23,7 +22,8 @@
   import Game from './components/Game.vue';
   import Intro from './components/Intro';
   import Modal from './components/Modal.vue';
-  import tips from './data/tips';
+  // import tips from './data/tips';
+  import EventBus from './event-bus/event-bus'
 
   export default {
     name: 'app',
@@ -38,12 +38,17 @@
     },
 
     created () {
-      // TODO
+      EventBus.$on('show-modal', this.showModal)
     },
 
     methods: {
-      toggleModal () {
-        this.isModalVisible = !this.isModalVisible;
+      closeModal () {
+        EventBus.$emit('modal-closed')
+        this.isModalVisible = false
+      },
+
+      showModal () {
+        this.isModalVisible = true
       },
 
       handleIntroReady () {

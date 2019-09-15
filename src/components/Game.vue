@@ -57,16 +57,16 @@ function preload() {
 
 function handleButtCollision(game, butt, target) {
   if (target.label === "trash") {
-    butt._hit = true
+    butt.gameObject._hit = true
     EventBus.$emit("win-game");
   }
-  if (target.gameObject === null) {
-    butt._dead = true
+  if (target.gameObject === null && !butt.gameObject._dead) {
+    butt.gameObject._dead = true
     EventBus.$emit("lost-point");
   }
   if (target.label === 'fan-sensor') {
     butt.gameObject._fanForce = new Vector(
-      target.gameObject.body.vertices[0])
+      target.gameObject.body.vertices[1])
       .subtract(butt.gameObject.getCenter()
     ).negate().scale(1/5000)
   }
@@ -84,7 +84,6 @@ function createTileMap(game) {
 }
 
 function initMatter(game) {
-  // Draggable items
   let mouseCollision = game.matter.world.nextGroup();
 
   Trash(game);
@@ -124,7 +123,7 @@ function create() {
   Cannon.init(this);
 }
 
-function update(time, delta) {
+function update() {
   Cannon.update();
   if (this.butts && this.butts.find(butt => butt._fanForce)) {
     this.butts.forEach(butt => {
@@ -148,6 +147,7 @@ export default {
   },
 
   mounted() {
+    let that = this
     this.game = new Phaser.Game({
       type: Phaser.AUTO,
       width: 800,
@@ -169,6 +169,13 @@ export default {
         update: update
       }
     });
+
+    EventBus.$on('lost-point', function () {
+      EventBus.$emit('show-modal')
+      // Check
+      that.game.paused = true
+      EventBus.$once('modal-closed', () => that.game.paused = false)
+    })
   }
 };
 </script>
