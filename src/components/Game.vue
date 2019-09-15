@@ -58,7 +58,10 @@ function preload() {
   this.load.image("vent", "vent.png");
   this.load.image("butt", "cigarrete_final.png");
   this.load.image('font', 'font.png');
-  this.load.spritesheet('cannon', "cannon_sprite_sheet.png",{ frameWidth: 64, frameHeight: 64 });
+  this.load.spritesheet('cannon', "cannon_sprite_sheet.png",{
+    frameWidth: 40,
+    frameHeight: 40,
+  });
 }
 
 

@@ -36,15 +36,17 @@ function init(scene) {
   Scene = scene;
 
   Cannon = Scene.matter.add
-    .sprite(0, 0, "cannon")
-    .setCollisionCategory(scene.matter.world.nextGroup())
-    .setPosition(50, 500)
-    .setStatic(true)
-    Scene.anims.create({
-      key: 'shot',
-      frames: Scene.anims.generateFrameNumbers('cannon', { start: 0, end: 13 }),
-      frameRate: 10,
-      repeat: -1
+  .sprite(0, 0, "cannon")
+  .setCollisionCategory(scene.matter.world.nextGroup())
+  .setPosition(50, 500)
+  .setStatic(true)
+  .toggleFlipX()
+
+  Scene.anims.create({
+    key: 'shot',
+    frames: Scene.anims.generateFrameNumbers('cannon', { start: 0, end: 13 }),
+    frameRate: 10,
+    repeat: -1
   });
   
   Scene.input.keyboard.on('keyup_SPACE', fireButt);
