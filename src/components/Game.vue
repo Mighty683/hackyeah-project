@@ -66,6 +66,7 @@ function handleButtCollision(game, butt, target) {
   if (target.label === "trash") {
     butt.gameObject._hit = true
     EventBus.$emit("win-game");
+    butt.destroy()
   }
   if (target.gameObject === null && !butt.gameObject._dead) {
     butt.gameObject._dead = true

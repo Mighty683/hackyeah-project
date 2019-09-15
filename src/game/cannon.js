@@ -16,16 +16,9 @@ function fireButt () {
     const vx = cannonForce * Math.cos(Cannon.rotation)
     const vy = cannonForce * Math.sin(Cannon.rotation)
 
-    butt = Butt(Scene, { x, y })
-    butt.setVelocity(vx,vy)
-    butt.setAngularVelocity(.3)
-
-    setTimeout(() => {
-      if (!butt._dead) {
-        butt.destroy();
-        butt = null;
-      }
-    }, 10000)
+    butt = Butt(Scene, { x, y: y - 5 })
+    butt.setVelocity(vx,vy), 50
+    setTimeout(() => butt.setAngularVelocity(.3))
   }
 }
 
