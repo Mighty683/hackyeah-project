@@ -6,8 +6,8 @@ export default (game, startX, startY, collisionGroup) => {
   let fanBody = Bodies.rectangle(0, 0, 40, 40, {
     label: 'fan'
   });
-  let fanSensor = Bodies.rectangle(0, -100, 40, 200, { isSensor: true, label: 'fan-sensor' });
-  var dummySensorA = Bodies.rectangle(0, 100, 40, 200, {
+  let fanSensor = Bodies.rectangle(0, -70, 40, 100, { isSensor: true, label: 'fan-sensor' });
+  var dummySensorA = Bodies.rectangle(0, 70, 40, 100, {
     isSensor: true,
     label: 'dummy-sensor',
   });

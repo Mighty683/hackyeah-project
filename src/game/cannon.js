@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import Butt from "./butt";
 
-let cannonForce = 10;
+let cannonForce = 15;
 
 let Cannon;
 let Scene;
@@ -17,15 +17,7 @@ function fireButt () {
 
     Cannon.anims.play('shot', true);  
     butt = Butt(Scene, { x, y: y - 5 })
-    butt.setVelocity(vx,vy), 50
-    setTimeout(() => butt.setAngularVelocity(.3))
-
-    setTimeout(() => {
-      if (!butt._dead) {
-        butt.destroy();
-        butt = null;
-      }
-    }, 10000)
+    butt.setVelocity(vx,vy)
   }
 }
 
