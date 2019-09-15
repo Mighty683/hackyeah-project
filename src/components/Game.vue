@@ -44,8 +44,6 @@ import Wall from "../game/wall";
 
 import EventBus from "../event-bus/event-bus";
 
-let Bodies = Phaser.Physics.Matter.Matter.Bodies;
-
 const score = {
   lose: null, win: null,
 };
@@ -67,7 +65,6 @@ function handleButtCollision(game, butt, target) {
   if (target.label === "trash") {
     butt.gameObject._hit = true
     EventBus.$emit("win-game");
-    console.log('GAME WON!');
   }
   if (target.label === 'ground' && !butt.gameObject._dead) {
     butt.gameObject._dead = true
@@ -91,8 +88,8 @@ function createTileMap(game) {
 }
 
 function createFontSprite (game) {
-  score.lose = game.add.tileSprite(0, 0, 40, 40, 'font');
-  score.win = game.add.tileSprite(0, 0, 40, 40, 'font');
+  score.lose = game.add.tileSprite(0, 0, 40, 40, 'font').setTint(0xFF5733);
+  score.win = game.add.tileSprite(0, 0, 40, 40, 'font').setTint(0x39FE0D);
   score.lose.x = 700;
   score.lose.y = 40;
   score.lose.tilePositionX = 0;
@@ -164,7 +161,6 @@ function update() {
     if (!butt._dead && butt._fanForce) {
       butt.applyForce(butt._fanForce)
       butt._fanForce = 0;
-      updateScore('lose');
     } else if (butt._dead && butt._hit) {
       butt.destroy()
       butt.setVisible(false)
