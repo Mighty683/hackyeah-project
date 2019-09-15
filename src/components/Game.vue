@@ -75,7 +75,7 @@ function handleButtCollision(game, butt, target) {
   }
   if (target.label === 'fan-sensor') {
     butt.gameObject._fanForce = target.gameObject.getTopRight()
-      .subtract(butt.gameObject.getCenter()).negate().scale(1/8000)
+      .subtract(butt.gameObject.getCenter()).negate().scale(1/6000)
   }
 }
 

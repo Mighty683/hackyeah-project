@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import Butt from "./butt";
 let Bodies = Phaser.Physics.Matter.Matter.Bodies;
 
-let cannonForce = 10;
+let cannonForce = 15;
 
 let Cannon;
 let Scene;
@@ -17,8 +17,7 @@ function fireButt () {
     const vy = cannonForce * Math.sin(Cannon.rotation)
 
     butt = Butt(Scene, { x, y: y - 5 })
-    butt.setVelocity(vx,vy), 50
-    setTimeout(() => butt.setAngularVelocity(.3))
+    butt.setVelocity(vx,vy)
   }
 }
 
