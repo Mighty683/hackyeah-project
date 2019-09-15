@@ -44,6 +44,8 @@ import Wall from "../game/wall";
 
 import EventBus from "../event-bus/event-bus";
 
+let Bodies = Phaser.Physics.Matter.Matter.Bodies;
+
 const score = {
   lose: null, win: null,
 };
@@ -67,7 +69,7 @@ function handleButtCollision(game, butt, target) {
     EventBus.$emit("win-game");
     butt.destroy()
   }
-  if (target.gameObject === null && !butt.gameObject._dead) {
+  if (target.label === 'ground' && !butt.gameObject._dead) {
     butt.gameObject._dead = true
     EventBus.$emit("lost-point");
   }
@@ -115,6 +117,8 @@ function resetScore() {
 
 function initMatter(game) {
   let mouseCollision = game.matter.world.nextGroup();
+  game.matter.add
+    .rectangle(400, 590, 800, 20, { label: 'ground', isStatic: true })
 
   Trash(game);
   game.fan1 = Fan(game, 50, 50, mouseCollision);
@@ -147,7 +151,7 @@ function initMatter(game) {
 }
 
 function create() {
-  this.matter.world.setBounds(0, 0, 800, 580);
+  this.matter.world.setBounds(0, 0, 800, 600);
   createTileMap(this);
   createFontSprite(this);
   initMatter(this);
