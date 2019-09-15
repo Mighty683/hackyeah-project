@@ -9,7 +9,6 @@ let Scene;
 let butt;
 
 function fireButt () {
-  // Cannon.rotation = 0.41326526295069783; // TODO: temp
   if (!butt) {
     const {x, y} = Cannon.getCenter();
 
@@ -18,9 +17,7 @@ function fireButt () {
 
     butt = Butt(Scene, { x, y })
     butt.setVelocity(vx,vy)
-
-    window.butt = butt
-    window.Cannon = Cannon
+    butt.setAngularVelocity(.3)
 
     setTimeout(() => {
       butt.destroy();
