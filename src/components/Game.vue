@@ -68,7 +68,7 @@ function handleButtCollision(game, butt, target) {
     butt.gameObject._fanForce = new Vector(
       target.gameObject.body.vertices[0])
       .subtract(butt.gameObject.getCenter()
-    ).negate().scale(1/10000)
+    ).negate().scale(1/5000)
   }
 }
 
@@ -133,7 +133,7 @@ function update(time, delta) {
         this.butts.splice(this.butts.indexOf(butt), 1)
       }
       if (!butt._dead) {
-        butt.applyForce(butt._fanFoce)
+        butt.applyForce(butt._fanForce)
         butt._fanForce = 0;
       }
     })
