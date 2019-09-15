@@ -7,18 +7,24 @@ export default (game, startX, startY, collisionGroup) => {
     label: 'fan'
   });
   let fanSensor = Bodies.rectangle(0, -100, 40, 200, { isSensor: true, label: 'fan-sensor' });
+  var dummySensorA = Bodies.rectangle(0, 100, 40, 200, {
+    isSensor: true,
+    label: 'dummy-sensor',
+  });
   let compoundBody = Phaser.Physics.Matter.Matter.Body.create({
-      parts: [ fanBody, fanSensor ],
+      parts: [ fanBody, fanSensor, dummySensorA ],
       inertia: Infinity
   });
   let fan = game.matter.add
     .image(0, 0, 'vent')
     .setExistingBody(compoundBody)
-    .setDisplayOrigin(20,-64)
     .setCollisionGroup(collisionGroup)
     .setPosition(startX, startY)
     .setStatic(true)
-    .setInteractive()
+    .setInteractive({
+      hitArea: fanBody,
+      useHandCursor: true
+    })
     .setIgnoreGravity(true)
     .on('pointerdown', function () {
       this.setStatic(false)
