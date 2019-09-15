@@ -16,7 +16,7 @@ export default (game, startX, startY, collisionGroup) => {
     .setExistingBody(compoundBody)
     .setDisplayOrigin(20,-64)
     .setCollisionGroup(collisionGroup)
-    .setPosition(startX, 200 || startY)
+    .setPosition(startX, startY)
     .setStatic(true)
     .setInteractive()
     .setIgnoreGravity(true)
