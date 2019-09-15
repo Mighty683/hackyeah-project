@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div @click="userActionHandle" id="app">
     <div class="start-screen" v-if="isIntro">
       <div class="loading" v-if="isLoadingIntro">Loading...</div>
       <intro @ready="handleIntroReady" @scroll-repeat="showLogo"/>
@@ -52,6 +52,10 @@
     },
 
     methods: {
+      userActionHandle () {
+        EventBus.$emit('play-music')
+      },
+
       closeModal () {
         EventBus.$emit('modal-closed')
         this.isModalVisible = false

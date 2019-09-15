@@ -11,6 +11,7 @@
 </template>
 
 <script>
+  import EventBus from '../event-bus/event-bus'
   const whichTransitionEvent = () => {
     const el = document.createElement('fakeelement');
 
@@ -80,12 +81,15 @@
       },
 
       startMusic () {
-        this.audio.currentTime = 0;
-        this.audio.play();
+        if (!this.audio.currentTime) {
+          this.audio.currentTime = 0;
+          this.audio.play();
+        }
       },
     },
 
     mounted () {
+      EventBus.$on('play-music', this.startMusic)
       this.audio = new Audio('MoveYourButt.mp3');
       this.startMusic();
       this.renderText();
