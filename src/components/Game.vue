@@ -194,7 +194,7 @@ export default {
       physics: {
         default: "matter",
         matter: {
-          debug: true,
+          debug: process.env.NODE_ENV === "development",
           gravity: {
             y: 0.3
           }
