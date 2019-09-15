@@ -38,6 +38,11 @@
 
     created () {
       EventBus.$on('show-modal', this.showModal)
+      window.addEventListener('keydown', (e)=> {
+        if(e.keyCode === 32) {
+          e.preventDefault()
+        }
+      })
     },
 
     methods: {
