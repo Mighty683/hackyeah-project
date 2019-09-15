@@ -42,6 +42,7 @@
         scrollPosition: 0,
         scrollStep: 100,
         timeout: null,
+        audio: null,
       };
     },
 
@@ -79,19 +80,22 @@
       },
 
       startMusic () {
-        const audio = new Audio('MoveYourButt.mp3');
-
-        audio.play();
+        this.audio.currentTime = 0;
+        this.audio.play();
       },
     },
 
     mounted () {
+      this.audio = new Audio('MoveYourButt.mp3');
+      this.startMusic();
       this.renderText();
       this.$el.addEventListener(transitionEvent, this.scroll);
+      this.audio.addEventListener('ended', this.startMusic);
     },
 
     destroyed () {
       this.$el.removeEventListener(transitionEvent, this.scroll);
+      this.audio.removeEventListener('ended', this.startMusic);
       clearTimeout(this.timeout);
     },
 
@@ -99,7 +103,6 @@
       textWidth (newValue) {
         if (newValue > 0) {
           this.scroll();
-          this.startMusic();
           this.$emit('ready');
         }
       },
