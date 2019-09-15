@@ -9,6 +9,8 @@
         <ul>
           <li>
             Help with boosters to omit the walls.
+            You can drag and drop them.
+            Click to rotate.
           </li>
           <li>
             Press SPACE to throw a butt.
@@ -192,7 +194,7 @@ export default {
       physics: {
         default: "matter",
         matter: {
-          debug: process.env.NODE_ENV === "development",
+          debug: false,
           gravity: {
             y: 0.3
           }

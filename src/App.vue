@@ -17,6 +17,9 @@
         <div class="finished" slot="body" v-if="modalText">{{ modalText }}</div>
       </modal>
     </template>
+    <div class="footer">
+      © Made by Team NiePaliSie
+    </div>
   </div>
 </template>
 
@@ -77,6 +80,10 @@
 </script>
 
 <style lang="scss">
+  .footer {
+    position: fixed;
+    bottom: 0;
+  }
   body {
     padding: 0;
     margin: 0;
