@@ -5,7 +5,7 @@
       <p class="rainbow-text">Goals:</p>
       <p>Don't litter, throw cig butt into bin.</p>
       <p class="rainbow-text">Instructions:</p>
-      <span>
+      <div>
         <ul>
           <li>
             Help with boosters to omit the walls.
@@ -14,7 +14,7 @@
             Press SPACE to throw a butt.
           </li>
         </ul>
-      </span>
+      </div>
     </div>
   </div>
 </template>
@@ -44,12 +44,20 @@ import Wall from "../game/wall";
 
 import EventBus from "../event-bus/event-bus";
 
+const score = {
+  lose: null, win: null,
+};
+const currentScore = {
+  lose: 0, win: 0,
+};
+
 function preload() {
   this.load.image("textures", "textures.png");
   this.load.image("trash", "trash.png");
   this.load.image("wall", "wall.png");
   this.load.image("vent", "vent.png");
   this.load.image("butt", "cigarrete_final.png");
+  this.load.image('font', 'font.png');
 }
 
 
@@ -57,6 +65,7 @@ function handleButtCollision(game, butt, target) {
   if (target.label === "trash") {
     butt.gameObject._hit = true
     EventBus.$emit("win-game");
+    butt.destroy()
   }
   if (target.gameObject === null && !butt.gameObject._dead) {
     butt.gameObject._dead = true
@@ -77,6 +86,31 @@ function createTileMap(game) {
   });
   const tiles = map.addTilesetImage("textures");
   map.createStaticLayer(0, tiles, 0, 0);
+}
+
+function createFontSprite (game) {
+  score.lose = game.add.tileSprite(0, 0, 40, 40, 'font');
+  score.win = game.add.tileSprite(0, 0, 40, 40, 'font');
+  score.lose.x = 700;
+  score.lose.y = 40;
+  score.lose.tilePositionX = 0;
+  score.lose.tilePositionY = 80;
+  score.win.x = 760;
+  score.win.y = 40;
+  score.win.tilePositionX = 0;
+  score.win.tilePositionY = 80;
+}
+
+function updateScore (side = 'lose') {
+  currentScore[side]++;
+  score[side].tilePositionX = 40 * currentScore[side];
+}
+
+function resetScore() {
+  currentScore.win = 0
+  currentScore.lose = 0
+  score.lose.tilePositionX = 0
+  score.win.tilePositionX = 0
 }
 
 function initMatter(game) {
@@ -115,6 +149,7 @@ function initMatter(game) {
 function create() {
   this.matter.world.setBounds(0, 0, 800, 580);
   createTileMap(this);
+  createFontSprite(this);
   initMatter(this);
   Cannon.init(this);
 }
@@ -126,10 +161,12 @@ function update() {
       if (butt._hit) {
         butt.destroy()
         this.butts.splice(this.butts.indexOf(butt), 1)
+        updateScore('win');
       }
       if (!butt._dead) {
         butt.applyForce(butt._fanForce)
         butt._fanForce = 0;
+        updateScore('lose');
       }
     })
   }
@@ -166,11 +203,35 @@ export default {
       }
     });
 
+    EventBus.$on('win-game', () => {
+      updateScore('win');
+      if (currentScore.win >= 5) {
+        EventBus.$emit('show-modal', 'Congratulations! You are a clean person! The world would be proud.')
+        that.game.paused = true
+        EventBus.$once('modal-closed', () => {
+          that.game.paused = false
+          resetScore()
+        })
+      }
+    });
+
     EventBus.$on('lost-point', function () {
-      EventBus.$emit('show-modal')
-      // Check
+      let finished = false
+      updateScore('lose')
+
+      if (currentScore.lose >= 5) {
+        EventBus.$emit('show-modal', 'You lose. You are lying under butts!')
+        finished = true
+      } else {
+        EventBus.$emit('show-modal')
+      }
       that.game.paused = true
-      EventBus.$once('modal-closed', () => that.game.paused = false)
+      EventBus.$once('modal-closed', () => {
+        that.game.paused = false
+        if (finished) {
+          resetScore()
+        }
+      })
     })
   }
 };

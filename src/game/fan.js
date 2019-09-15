@@ -27,16 +27,14 @@ export default (game, startX, startY, collisionGroup) => {
     })
     .setIgnoreGravity(true)
     .on('pointerdown', function () {
-      fan.setStatic(false)
+      this.setStatic(false)
     })
     .on('pointerup', function (pointer) {
       if (pointer.getDistance() < 10) {
-        fan.angle = fan.angle + 90
+        this.angle += 90
       }
-      fan.setStatic(true)
+      this.setStatic(true)
     })
-    .on('click', function () {
-      fan.setAngle(fan.angle + 90)
-    })
+
   return fan
 }

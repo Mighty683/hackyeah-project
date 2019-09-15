@@ -13,7 +13,9 @@
     </div>
     <template v-else>
       <game/>
-      <modal @close="closeModal" v-if="isModalVisible"/>
+      <modal @close="closeModal" v-if="isModalVisible">
+        <div class="finished" slot="body" v-if="modalText">{{ modalText }}</div>
+      </modal>
     </template>
   </div>
 </template>
@@ -33,11 +35,17 @@
         isLoadingIntro: true,
         isModalVisible: false,
         isShowingLogo: false,
+        modalText: '',
       };
     },
 
     created () {
       EventBus.$on('show-modal', this.showModal)
+      window.addEventListener('keydown', (e)=> {
+        if(e.keyCode === 32) {
+          e.preventDefault()
+        }
+      })
     },
 
     methods: {
@@ -46,8 +54,9 @@
         this.isModalVisible = false
       },
 
-      showModal () {
+      showModal (text) {
         this.isModalVisible = true
+        this.modalText = text
       },
 
       handleIntroReady () {
@@ -113,6 +122,11 @@
     font-size: 10vw;
     color: black;
     text-shadow: 0 0 5px lightgrey;
+  }
+
+  .finished {
+    font-weight: bold;
+    font-size: 2em;
   }
 
   .logo {
