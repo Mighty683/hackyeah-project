@@ -1,5 +1,5 @@
 <template>
-  <div id="app" @click="isIntro = false">
+  <div id="app">
     <div class="start-screen" v-if="isIntro">
       <div class="loading" v-if="isLoadingIntro">Loading...</div>
       <intro @ready="handleIntroReady" @scroll-repeat="showLogo"/>
