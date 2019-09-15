@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 let Bodies = Phaser.Physics.Matter.Matter.Bodies;
 
-export default (game, { collisionGroup }) => {
+export default (game, { collisionGroup, x = 300, y = 300 }) => {
   
   const butt = game.matter.add
   .image(0, 0, 'butt')
@@ -9,6 +9,6 @@ export default (game, { collisionGroup }) => {
     label: 'butt'
   }))
   .setCollisionGroup(collisionGroup)
-  .setPosition(300, 300)
+  .setPosition(x, y);
   return butt
 }

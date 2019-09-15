@@ -1,26 +1,37 @@
 import Phaser from "phaser";
-// import Butt from "butt";
+import Butt from "./butt";
+
+let cannonForce = 10;
 
 let Cannon;
 let Scene;
 
 let butt;
 
-function loadButt () {
-  if (!butt) {
-    //noop
-  }
-
-}
 function fireButt () {
+  // Cannon.rotation = 0.41326526295069783; // TODO: temp
+  if (!butt) {
+    const {x, y} = Cannon.getCenter();
 
+    let vx = -cannonForce * Math.sin(Cannon.rotation)
+    let vy = -cannonForce * Math.cos(Cannon.rotation)
+
+    butt = Butt(Scene, { x, y })
+    butt.setVelocity(vx,vy)
+
+    window.butt = butt
+    window.Cannon = Cannon
+
+    setTimeout(() => {
+      butt.destroy();
+      butt = null;
+    }, 4000)
+  }
 }
 
 function init(scene) {
   if (Cannon) return Cannon;
 
-  window.Scene = Scene; // TODO: remove
-  console.log(scene)
 
   Scene = scene;
 
@@ -32,8 +43,10 @@ function init(scene) {
     .setOrigin(0, 0.5)
     .setStatic(true);
 
-  Scene.input.keyboard.on('keydown_SPACE', loadButt);
+  // Scene.input.keyboard.on('keydown_SPACE', loadButt);
   Scene.input.keyboard.on('keyup_SPACE', fireButt);
+
+  // Scene.input.on('pointerdown', ({ x, y }) => console.log(`POINTER: ${x}, ${y}`))
 
   return Cannon;
 }
