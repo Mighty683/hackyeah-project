@@ -10,5 +10,10 @@ export default (game, { collisionGroup, x = 300, y = 300 }) => {
   }))
   .setCollisionGroup(collisionGroup)
   .setPosition(x, y);
+  if (game.buts) {
+    game.butts.push(butt)
+  } else {
+    game.butts = [butt]
+  }
   return butt
 }

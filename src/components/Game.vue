@@ -1,7 +1,36 @@
 <template>
-  <div id="phaser-container" />
+  <div>
+    <div id="phaser-container" />
+    <div class="instructions">
+      <p class="rainbow-text">Goals:</p>
+      <p>Don't litter, throw cig butt into bin.</p>
+      <p class="rainbow-text">Instructions:</p>
+      <span>
+        <ul>
+          <li>
+            Help with boosters to omit the walls.
+          </li>
+          <li>
+            Press SPACE to throw a butt.
+          </li>
+        </ul>
+      </span>
+    </div>
+  </div>
 </template>
 
+<style>
+  .instructions {
+    text-align: center;
+  }
+  .rainbow-text {
+    font-size: 3rem;
+    margin: 0;
+    background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+</style>
 <script>
 import Phaser from "phaser";
 
@@ -9,7 +38,6 @@ import wallsLabirynth from "../data/walls";
 import level from "../data/level";
 
 import Trash from "../game/trash";
-import Butt from "../game/butt";
 import Cannon from "../game/cannon";
 import Fan from "../game/fan";
 import Wall from "../game/wall";
@@ -29,7 +57,12 @@ function preload() {
 
 function handleButtCollision(game, butt, target) {
   if (target.label === "trash") {
+    butt._hit = true
     EventBus.$emit("win-game");
+  }
+  if (target.gameObject === null) {
+    butt._dead = true
+    EventBus.$emit("lost-point");
   }
   if (target.label === 'fan-sensor') {
     butt.gameObject._fanForce = new Vector(
@@ -59,9 +92,6 @@ function initMatter(game) {
   game.fan2 = Fan(game, 100, 50, mouseCollision);
   game.fan3 = Fan(game, 150, 50, mouseCollision);
   game.fan4 = Fan(game, 200, 50, mouseCollision);
-  game.butt = Butt(game, {
-    collisionGroup: mouseCollision
-  });
   wallsLabirynth.forEach(element => {
       Wall(game, element);
   });
@@ -96,9 +126,17 @@ function create() {
 
 function update(time, delta) {
   Cannon.update();
-  if (this.butt._fanForce) {
-    this.butt.applyForce(this.butt._fanForce)
-    this.butt._fanForce = 0;
+  if (this.butts && this.butts.find(butt => butt._fanForce)) {
+    this.butts.forEach(butt => {
+      if (butt._hit) {
+        butt.destroy()
+        this.butts.splice(this.butts.indexOf(butt), 1)
+      }
+      if (!butt._dead) {
+        butt.applyForce(butt._fanFoce)
+        butt._fanForce = 0;
+      }
+    })
   }
 }
 

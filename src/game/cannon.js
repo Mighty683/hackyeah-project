@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import Butt from "./butt";
+let Bodies = Phaser.Physics.Matter.Matter.Bodies;
 
 let cannonForce = 10;
 
@@ -20,8 +21,10 @@ function fireButt () {
     butt.setAngularVelocity(.3)
 
     setTimeout(() => {
-      butt.destroy();
-      butt = null;
+      if (!butt._dead) {
+        butt.destroy();
+        butt = null;
+      }
     }, 4000)
   }
 }
@@ -33,11 +36,13 @@ function init(scene) {
   Scene = scene;
 
   Cannon = Scene.matter.add
-    .sprite(200, 300, "cannon", {
-      originX: 0
-    })
+    .image(0, 0, "cannon",)
+    .setExistingBody(Bodies.rectangle(0, 0, 20, 60, {
+      label: 'butt'
+    }))
+    .setCollisionCategory(scene.matter.world.nextGroup())
     .setDisplaySize(60, 10)
-    .setOrigin(0, 0.5)
+    .setPosition(50, 500)
     .setStatic(true);
 
   // Scene.input.keyboard.on('keydown_SPACE', loadButt);
