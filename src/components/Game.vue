@@ -65,10 +65,8 @@ function handleButtCollision(game, butt, target) {
     EventBus.$emit("lost-point");
   }
   if (target.label === 'fan-sensor') {
-    butt.gameObject._fanForce = new Vector(
-      target.gameObject.body.vertices[1])
-      .subtract(butt.gameObject.getCenter()
-    ).negate().scale(1/5000)
+    butt.gameObject._fanForce = target.gameObject.getTopRight()
+      .subtract(butt.gameObject.getCenter()).negate().scale(1/2500)
   }
 }
 
