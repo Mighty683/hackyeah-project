@@ -8,6 +8,4 @@ const tips = [
     "One but can cost you even 2 Bilion PLN ? In 2008 one guy from Poznan lead to burn estate by throwing butt"
 ]
 
-
-
 export default tips

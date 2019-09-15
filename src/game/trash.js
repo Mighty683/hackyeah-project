@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 let Bodies = Phaser.Physics.Matter.Matter.Bodies;
 
 export default (game) => {
-  let trashSensor = Bodies.rectangle(0, 0, 40, 65, { isSensor: true, label: 'trash' })
+  let trashSensor = Bodies.rectangle(0, 0, 40, 70, { isSensor: true, label: 'trash' })
   let trashBody = Bodies.rectangle(0, 0, 60, 60)
   let compoundBody = Phaser.Physics.Matter.Matter.Body.create({
       parts: [ trashBody, trashSensor, ],

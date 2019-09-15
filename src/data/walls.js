@@ -1,13 +1,5 @@
 const walls = [
     {
-        height: 200,
-        rotation: 0,
-        position: {
-            x: 200,
-            y: 480
-        }
-    },
-    {
         height: 350,
         rotation: 0,
         position: {

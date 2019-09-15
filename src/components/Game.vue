@@ -67,7 +67,7 @@ function handleButtCollision(game, butt, target) {
   if (target.label === "trash") {
     butt.gameObject._hit = true
     EventBus.$emit("win-game");
-    butt.destroy()
+    console.log('GAME WON!');
   }
   if (target.label === 'ground' && !butt.gameObject._dead) {
     butt.gameObject._dead = true
@@ -160,20 +160,17 @@ function create() {
 
 function update() {
   Cannon.update();
-  if (this.butts && this.butts.find(butt => butt._fanForce)) {
-    this.butts.forEach(butt => {
-      if (butt._hit) {
-        butt.destroy()
-        this.butts.splice(this.butts.indexOf(butt), 1)
-        updateScore('win');
-      }
-      if (!butt._dead) {
-        butt.applyForce(butt._fanForce)
-        butt._fanForce = 0;
-        updateScore('lose');
-      }
-    })
-  }
+  this.butts && this.butts.forEach(butt => {
+    if (!butt._dead && butt._fanForce) {
+      butt.applyForce(butt._fanForce)
+      butt._fanForce = 0;
+      updateScore('lose');
+    } else if (butt._dead && butt._hit) {
+      butt.destroy()
+      butt.setVisible(false)
+      this.butts.splice(this.butts.indexOf(butt), 1)
+    }
+  })
 }
 
 export default {
