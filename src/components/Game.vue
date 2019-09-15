@@ -91,14 +91,16 @@ function createTileMap(game) {
 function createFontSprite (game) {
   score.lose = game.add.tileSprite(0, 0, 40, 40, 'font');
   score.win = game.add.tileSprite(0, 0, 40, 40, 'font');
-  score.lose.x = 100;
-  score.lose.y = 100;
+  score.lose.x = 700;
+  score.lose.y = 40;
   score.lose.tilePositionX = 0;
   score.lose.tilePositionY = 80;
-  score.win.x = 160;
-  score.win.y = 100;
+  score.lose.blendMode = Phaser.BlendModes.MULTIPLY;
+  score.win.x = 760;
+  score.win.y = 40;
   score.win.tilePositionX = 0;
   score.win.tilePositionY = 80;
+  score.win.blendMode = Phaser.BlendModes.SCREEN;
 }
 
 function updateScore (side = 'lose') {
