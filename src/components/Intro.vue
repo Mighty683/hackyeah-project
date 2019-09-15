@@ -35,7 +35,7 @@
 
     data () {
       return {
-        text: 'The text to be on the screen... and beyond!',
+        text: 'Be aware, human! Some of us it makes happy, some sad. But the truth is it might harm. And I am not talking about ourselves but others and especially the environment. So remember to clean after yourself if you do not want to be digged in cigarette butts!',
         displayText: '',
         currentLetter: 0,
         textWidth: 0,
@@ -59,7 +59,7 @@
       renderText () {
         this.timeout = setTimeout(() => {
           this.addLetter();
-        }, 100);
+        }, 50);
       },
 
       countSize () {
@@ -72,6 +72,7 @@
       scroll () {
         if (this.scrollPosition >= this.textWidth) {
           this.scrollPosition = 0;
+          this.$emit('scroll-repeat');
         } else {
           this.scrollPosition += this.scrollStep;
         }
@@ -99,6 +100,7 @@
         if (newValue > 0) {
           this.scroll();
           this.startMusic();
+          this.$emit('ready');
         }
       },
     },
@@ -115,12 +117,12 @@
     font-size: 8vw;
     white-space: nowrap;
     transition: 1s transform ease-in-out;
-    text-shadow: 10px 10px 17px grey;
+    text-shadow: 0 0 10px #10fd97;
+    color: darkslategrey;
 
     .letter {
       display: inline-block;
       width: 6vw;
-
     }
   }
 </style>

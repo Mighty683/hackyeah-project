@@ -99,16 +99,18 @@
       box-shadow: -2px -2px lightgrey inset, 2px 2px 5px 2px black;
       cursor: pointer;
       background: white;
+      font-weight: bold;
+      font-size: 20px;
     }
   }
 
   .loading {
     font-size: 10vw;
-    color: white;
+    color: black;
     text-shadow: 0 0 5px lightgrey;
   }
 
   .logo {
-    width: 80vw;
+    width: 60vw;
   }
 </style>
