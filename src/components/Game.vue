@@ -61,8 +61,8 @@ function preload() {
   this.load.image("butt", "cigarrete_final.png");
   this.load.image('font', 'font.png');
   this.load.spritesheet('cannon', "cannon_sprite_sheet.png",{
-    frameWidth: 40,
-    frameHeight: 40,
+    frameWidth: 64,
+    frameHeight: 64,
   });
 }
 
@@ -79,7 +79,7 @@ function handleButtCollision(game, butt, target) {
   }
   if (target.label === 'fan-sensor') {
     butt.gameObject._fanForce = target.gameObject.getTopRight()
-      .subtract(butt.gameObject.getCenter()).negate().scale(1/6000)
+      .subtract(butt.gameObject.getCenter()).negate().scale(1/4000)
   }
 }
 

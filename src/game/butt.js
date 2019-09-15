@@ -16,10 +16,10 @@ export default (game, { collisionGroup, x = 300, y = 300 }) => {
     game.butts = [butt]
   }
 
-  setTimeout(() => {
-    butt && butt.destroy();
-    butt = null
-  }, 10000)
+  // setTimeout(() => {
+  //   butt && butt.destroy();
+  //   butt = null
+  // }, 10000)
 
   return butt
 }
