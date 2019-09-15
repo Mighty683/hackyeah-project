@@ -8,7 +8,7 @@ export default (game, startX, startY, collisionGroup) => {
   });
   let fanSensor = Bodies.rectangle(0, -100, 40, 200, { isSensor: true, label: 'fan-sensor' });
   let compoundBody = Phaser.Physics.Matter.Matter.Body.create({
-      parts: [ fanBody, fanSensor, ],
+      parts: [ fanBody, fanSensor ],
       inertia: Infinity
   });
   let fan = game.matter.add
@@ -16,21 +16,19 @@ export default (game, startX, startY, collisionGroup) => {
     .setExistingBody(compoundBody)
     .setDisplayOrigin(20,-64)
     .setCollisionGroup(collisionGroup)
-    .setPosition(startX, startY)
+    .setPosition(startX, 200 || startY)
     .setStatic(true)
     .setInteractive()
     .setIgnoreGravity(true)
     .on('pointerdown', function () {
-      fan.setStatic(false)
+      this.setStatic(false)
     })
     .on('pointerup', function (pointer) {
       if (pointer.getDistance() < 10) {
-        fan.angle = fan.angle + 90
+        this.angle += 90
       }
-      fan.setStatic(true)
+      this.setStatic(true)
     })
-    .on('click', function () {
-      fan.setAngle(fan.angle + 90)
-    })
+
   return fan
 }
