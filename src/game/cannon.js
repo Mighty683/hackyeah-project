@@ -13,8 +13,8 @@ function fireButt () {
   if (!butt) {
     const {x, y} = Cannon.getCenter();
 
-    let vx = -cannonForce * Math.sin(Cannon.rotation)
-    let vy = -cannonForce * Math.cos(Cannon.rotation)
+    const vx = cannonForce * Math.cos(Cannon.rotation)
+    const vy = cannonForce * Math.sin(Cannon.rotation)
 
     butt = Butt(Scene, { x, y })
     butt.setVelocity(vx,vy)
