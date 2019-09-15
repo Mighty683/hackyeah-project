@@ -44,8 +44,6 @@ import Wall from "../game/wall";
 
 import EventBus from "../event-bus/event-bus";
 
-let Vector = Phaser.Math.Vector2;
-
 function preload() {
   this.load.image("textures", "textures.png");
   this.load.image("trash", "trash.png");
@@ -66,7 +64,7 @@ function handleButtCollision(game, butt, target) {
   }
   if (target.label === 'fan-sensor') {
     butt.gameObject._fanForce = target.gameObject.getTopRight()
-      .subtract(butt.gameObject.getCenter()).negate().scale(1/2500)
+      .subtract(butt.gameObject.getCenter()).negate().scale(1/8000)
   }
 }
 
