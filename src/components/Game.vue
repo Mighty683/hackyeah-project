@@ -106,6 +106,13 @@ function updateScore (side = 'lose') {
   score[side].tilePositionX = 40 * currentScore[side];
 }
 
+function resetScore() {
+  currentScore.win = 0
+  currentScore.lose = 0
+  score.lose.tilePositionX = 0
+  score.win.tilePositionX = 0
+}
+
 function initMatter(game) {
   let mouseCollision = game.matter.world.nextGroup();
 
@@ -200,19 +207,31 @@ export default {
       updateScore('win');
       if (currentScore.win >= 5) {
         EventBus.$emit('show-modal', 'Congratulations! You are a clean person! The world would be proud.')
+        that.game.paused = true
+        EventBus.$once('modal-closed', () => {
+          that.game.paused = false
+          resetScore()
+        })
       }
     });
 
     EventBus.$on('lost-point', function () {
+      let finished = false
       updateScore('lose')
 
       if (currentScore.lose >= 5) {
         EventBus.$emit('show-modal', 'You lose. You are lying under butts!')
+        finished = true
       } else {
         EventBus.$emit('show-modal')
       }
       that.game.paused = true
-      EventBus.$once('modal-closed', () => that.game.paused = false)
+      EventBus.$once('modal-closed', () => {
+        that.game.paused = false
+        if (finished) {
+          resetScore()
+        }
+      })
     })
   }
 };

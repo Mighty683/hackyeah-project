@@ -14,7 +14,7 @@
     <template v-else>
       <game/>
       <modal @close="closeModal" v-if="isModalVisible">
-        <template slot="body" v-if="modalText">{{ modalText }}</template>
+        <div class="finished" slot="body" v-if="modalText">{{ modalText }}</div>
       </modal>
     </template>
   </div>
@@ -122,6 +122,11 @@
     font-size: 10vw;
     color: black;
     text-shadow: 0 0 5px lightgrey;
+  }
+
+  .finished {
+    font-weight: bold;
+    font-size: 2em;
   }
 
   .logo {
