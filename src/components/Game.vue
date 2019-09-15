@@ -5,7 +5,7 @@
       <p class="rainbow-text">Goals:</p>
       <p>Don't litter, throw cig butt into bin.</p>
       <p class="rainbow-text">Instructions:</p>
-      <span>
+      <div>
         <ul>
           <li>
             Help with boosters to omit the walls.
@@ -14,7 +14,7 @@
             Press SPACE to throw a butt.
           </li>
         </ul>
-      </span>
+      </div>
     </div>
   </div>
 </template>
@@ -45,6 +45,12 @@ import Wall from "../game/wall";
 import EventBus from "../event-bus/event-bus";
 
 let Vector = Phaser.Math.Vector2;
+const score = {
+  lose: null, win: null,
+};
+const currentScore = {
+  lose: 0, win: 0,
+};
 
 function preload() {
   this.load.image("textures", "textures.png");
@@ -52,6 +58,7 @@ function preload() {
   this.load.image("wall", "wall.png");
   this.load.image("vent", "vent.png");
   this.load.image("butt", "cigarrete_final.png");
+  this.load.image('font', 'font.png');
 }
 
 
@@ -79,6 +86,24 @@ function createTileMap(game) {
   });
   const tiles = map.addTilesetImage("textures");
   map.createStaticLayer(0, tiles, 0, 0);
+}
+
+function createFontSprite (game) {
+  score.lose = game.add.tileSprite(0, 0, 40, 40, 'font');
+  score.win = game.add.tileSprite(0, 0, 40, 40, 'font');
+  score.lose.x = 100;
+  score.lose.y = 100;
+  score.lose.tilePositionX = 0;
+  score.lose.tilePositionY = 80;
+  score.win.x = 160;
+  score.win.y = 100;
+  score.win.tilePositionX = 0;
+  score.win.tilePositionY = 80;
+}
+
+function updateScore (side = 'lose') {
+  currentScore[side]++;
+  score[side].tilePositionX = 40 * currentScore[side];
 }
 
 function initMatter(game) {
@@ -117,6 +142,7 @@ function initMatter(game) {
 function create() {
   this.matter.world.setBounds(0, 0, 800, 580);
   createTileMap(this);
+  createFontSprite(this);
   initMatter(this);
   Cannon.init(this);
 }
@@ -128,10 +154,12 @@ function update() {
       if (butt._hit) {
         butt.destroy()
         this.butts.splice(this.butts.indexOf(butt), 1)
+        updateScore('win');
       }
       if (!butt._dead) {
         butt.applyForce(butt._fanForce)
         butt._fanForce = 0;
+        updateScore('lose');
       }
     })
   }
@@ -168,7 +196,12 @@ export default {
       }
     });
 
+    EventBus.$on('win-game', () => {
+      updateScore('win');
+    });
+
     EventBus.$on('lost-point', function () {
+      updateScore('lose')
       EventBus.$emit('show-modal')
       // Check
       that.game.paused = true
