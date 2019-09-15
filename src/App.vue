@@ -23,6 +23,7 @@
   import Game from './components/Game.vue';
   import Intro from './components/Intro';
   import Modal from './components/Modal.vue';
+  import tips from './data/tips';
 
   export default {
     name: 'app',
